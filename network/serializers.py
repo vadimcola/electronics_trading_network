@@ -34,3 +34,12 @@ class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Network
         fields = '__all__'
+
+    def validate(self, data):
+        supplier_category = data['supplier'].category
+        network_category = data['category']
+        if not network_category-1 == supplier_category:
+            raise serializers.ValidationError(
+                'Категория поставщика должна быть предыдущей по иерархии '
+            )
+        return data

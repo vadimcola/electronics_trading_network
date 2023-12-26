@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Contact(models.Model):
@@ -68,6 +69,15 @@ class Network(models.Model):
     debt = models.DecimalField(max_digits=10, decimal_places=2,
                                verbose_name='Задолженность перед поставщиком')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+    def clean(self):
+        supplier_category = self.supplier.category
+        network_category = self.category
+        if not network_category - 1 == supplier_category:
+            raise ValidationError(
+                'Категория поставщика должна быть предыдущей по иерархии'
+            )
+        super().clean()
 
     def __str__(self):
         return f'{self.name}'
