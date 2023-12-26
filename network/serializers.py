@@ -20,11 +20,17 @@ class SupplierSerializer(serializers.ModelSerializer):
         fields = ['name']
 
 
-class NetworkSerializer(serializers.ModelSerializer):
+class ViewNetworkSerializer(serializers.ModelSerializer):
     contact = ContactSerializer()
     product = ProductSerializer(many=True, read_only=True)
     supplier = SupplierSerializer()
 
     class Meta:
         model = Network
-        fields = ['name', 'contact', 'product', 'supplier', 'debt', 'created_at']
+        fields = ['name', 'category', 'contact', 'product', 'supplier', 'debt', 'created_at']
+
+
+class NetworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Network
+        fields = '__all__'
