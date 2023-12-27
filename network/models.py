@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+NULLABLE = {'blank': True, 'null': True}
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=255, verbose_name='Наименование')
@@ -66,7 +68,7 @@ class Network(models.Model):
                                      related_name='product', verbose_name='Продукты')
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE,
                                  related_name='supplier', verbose_name='Поставшик')
-    debt = models.DecimalField(max_digits=10, decimal_places=2,
+    debt = models.DecimalField(max_digits=10, decimal_places=2, **NULLABLE,
                                verbose_name='Задолженность перед поставщиком')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 

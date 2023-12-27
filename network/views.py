@@ -1,6 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from network.models import Network, Contact, Product, Supplier
+from network.permissions import UpdateDebtPermission
 from network.serializers import NetworkSerializer, ViewNetworkSerializer, ContactSerializer, ProductSerializer, \
     SupplierSerializer
 
@@ -22,6 +24,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
 
 class NetworkViewSet(viewsets.ModelViewSet):
     queryset = Network.objects.all()
+    permission_classes = [IsAuthenticated, UpdateDebtPermission]
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
