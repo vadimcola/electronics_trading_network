@@ -1,5 +1,7 @@
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
+
 
 from network.models import Network, Contact, Product, Supplier
 from network.permissions import UpdateDebtPermission
@@ -25,6 +27,8 @@ class SupplierViewSet(viewsets.ModelViewSet):
 class NetworkViewSet(viewsets.ModelViewSet):
     queryset = Network.objects.all()
     permission_classes = [IsAuthenticated, UpdateDebtPermission]
+    filter_backends = [SearchFilter]
+    search_fields = ['contact__country']
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
