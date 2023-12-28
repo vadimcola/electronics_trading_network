@@ -24,14 +24,12 @@ class NetworkAdmin(admin.ModelAdmin):
     list_filter = ('contact__city',)
     actions = ['clear_debt']
 
-    def get_supplier(self, obj):
-        return obj.supplier.name
-    get_supplier.admin_order_field = 'supplier__name'
-
     def clear_debt(self, request, queryset):
+        """
+        Метод для отчистки задолженности перед поставщиком.
+        """
         for obj in queryset:
             obj.debt = 0
             obj.save()
 
     clear_debt.short_description = 'Очистить задолженность перед поставщиком'
-

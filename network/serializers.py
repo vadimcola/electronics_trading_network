@@ -21,6 +21,9 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 
 class ViewNetworkSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для просмотра сети
+    """
     contact = ContactSerializer()
     product = ProductSerializer(many=True, read_only=True)
     supplier = SupplierSerializer()
@@ -36,6 +39,9 @@ class NetworkSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
+        """
+        В данном методе сравнивается категория поставщика с категорией сети
+        """
         supplier_category = data['supplier'].category
         network_category = data['category']
         if not network_category-1 == supplier_category:

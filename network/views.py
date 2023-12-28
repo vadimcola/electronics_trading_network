@@ -10,27 +10,42 @@ from network.serializers import NetworkSerializer, ViewNetworkSerializer, Contac
 
 
 class ContactViewSet(viewsets.ModelViewSet):
+    """
+    CRUD для модели Контактов
+    """
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    """
+    CRUD для модели Продуктов
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
+    """
+    CRUD для модели Поставшика
+    """
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
 
 class NetworkViewSet(viewsets.ModelViewSet):
+    """
+    CRUD для модели Сети
+    """
     queryset = Network.objects.all()
     permission_classes = [IsAuthenticated, UpdateDebtPermission]
     filter_backends = [SearchFilter]
     search_fields = ['contact__country']
 
     def get_serializer_class(self):
+        """
+        В методе в зависимости от запроса идет выбор сериализатора
+        """
         if self.action in ['list', 'retrieve']:
             return ViewNetworkSerializer
         return NetworkSerializer

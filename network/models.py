@@ -73,6 +73,9 @@ class Network(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 
     def clean(self):
+        """
+        В данном методе сравнивается категория поставщика с категорией сети
+        """
         supplier_category = self.supplier.category
         network_category = self.category
         if not network_category - 1 == supplier_category:
